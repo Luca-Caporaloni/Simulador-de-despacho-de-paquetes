@@ -1,24 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public DayManager dayManager;
-    public TextMeshProUGUI dayText;
-    public TextMeshProUGUI paquetesEnviadosText;
-    public TextMeshProUGUI paquetesEntregadosText;
-    public TextMeshProUGUI dineroGanadoText;
+    public static UIManager Instance;
 
-    private void Update()
+    public TextMeshProUGUI dineroText;
+    public TextMeshProUGUI paquetesEnviadosText;
+    public TextMeshProUGUI currentDayText;
+
+    private void Awake()
     {
-        MostrarEstadisticas();
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
     }
 
     public void MostrarEstadisticas()
     {
-        dayText.text = "Día: " + dayManager.currentDay;
-        paquetesEnviadosText.text = "Paquetes Enviados: " + dayManager.paquetesEnviados;
-        paquetesEntregadosText.text = "Paquetes Entregados: " + dayManager.paquetesEntregados;
-        dineroGanadoText.text = "Dinero Ganado: $" + dayManager.dineroGanado;
+        dineroText.text = "Dinero ganado: $" + DayManager.Instance.dineroGanado;
+        paquetesEnviadosText.text = "Paquetes enviados: " + DayManager.Instance.paquetesEnviados;
+        currentDayText.text = "Día: " + DayManager.Instance.currentDay;
     }
 }

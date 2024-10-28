@@ -3,6 +3,21 @@ using UnityEngine;
 
 public class DayManager : MonoBehaviour
 {
+
+     public static DayManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
+    public void PaqueteDespachado(int costo)
+    {
+        paquetesEnviados++;
+        dineroGanado += costo;
+        UIManager.Instance.MostrarEstadisticas(); // Actualiza la UI al despachar
+    }
     public int currentDay = 1;
     public int paquetesEnviados = 0;
     public int paquetesEntregados = 0;
@@ -10,7 +25,7 @@ public class DayManager : MonoBehaviour
     private List<Paquete> paquetesDelDia;
 
     private void Start()
-    {
+    {       
         IniciarNuevoDia();
     }
 
