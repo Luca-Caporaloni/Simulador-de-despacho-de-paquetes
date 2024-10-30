@@ -25,6 +25,11 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+         if (SaveSystem.ExistePartidaGuardada())
+    {
+        CargarProgreso();
+    }
+    
         saveButton.onClick.AddListener(GuardarProgreso);
         loadButton.onClick.AddListener(CargarProgreso);
     }
@@ -44,7 +49,12 @@ public class GameController : MonoBehaviour
             dayManager.paquetesEnviados = data.paquetesEnviados;
             dayManager.paquetesEntregados = data.paquetesEntregados;
             dayManager.dineroGanado = data.dineroGanado;
-            uiManager.MostrarEstadisticas();
+            uiManager.MostrarEstadisticas(); // Actualizar UI
+            Debug.Log("Progreso cargado."); // Confirmación visual
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró una partida guardada para cargar.");
         }
     }
 }

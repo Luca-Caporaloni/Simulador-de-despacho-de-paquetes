@@ -10,14 +10,22 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI dineroText;
     public TextMeshProUGUI paquetesEnviadosText;
     public TextMeshProUGUI currentDayText;
+    public TextMeshProUGUI horaText; // Asegúrate de tener un TextMeshPro para la hora
 
     private void Awake()
     {
-        if (Instance == null)
+         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // No destruir al cargar nuevas escenas
+        }
         else
-            Destroy(gameObject);
+        {
+            Destroy(gameObject); // Si ya existe una instancia, destruye esta
+        }
     }
+
+    
 
     public void MostrarEstadisticas()
     {
@@ -25,4 +33,16 @@ public class UIManager : MonoBehaviour
         paquetesEnviadosText.text = "Paquetes enviados: " + DayManager.Instance.paquetesEnviados;
         currentDayText.text = "Día: " + DayManager.Instance.currentDay;
     }
+
+    public void ActualizarHoraUI(string hora)
+{
+    if (horaText != null)
+    {
+        horaText.text = hora;
+    }
+    else
+    {
+        Debug.LogWarning("Referencia a horaText no asignada en UIManager.");
+    }
+}
 }

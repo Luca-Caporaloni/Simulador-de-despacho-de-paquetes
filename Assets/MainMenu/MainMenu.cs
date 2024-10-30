@@ -5,13 +5,13 @@ public class MainMenu : MonoBehaviour
 {
     public void Jugar()
     {
-        SceneManager.LoadScene("MainScene"); // Cargar la escena principal
+        SceneManager.LoadScene("MainScene");
     }
 
     public void NuevaPartida()
     {
-        SaveSystem.EliminarPartidaGuardada(); // Elimina los datos de guardado
-        SceneManager.LoadScene("MainScene"); // Carga una partida limpia
+        SaveSystem.EliminarPartidaGuardada();
+        SceneManager.LoadScene("MainScene");
     }
 
     public void Salir()

@@ -26,17 +26,21 @@ public static class SaveSystem
         }
     }
 
-    public static void EliminarPartidaGuardada()
-  {
-    if (File.Exists(savePath))
+    public static bool ExistePartidaGuardada()
     {
-        File.Delete(savePath);
-        Debug.Log("Archivo de guardado eliminado en " + savePath);
+        return File.Exists(savePath);
     }
-    else
-    {
-        Debug.LogWarning("No se encontró un archivo de guardado para eliminar.");
-    }
-  }
 
+    public static void EliminarPartidaGuardada()
+    {
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath);
+            Debug.Log("Archivo de guardado eliminado en " + savePath);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró un archivo de guardado para eliminar.");
+        }
+    }
 }

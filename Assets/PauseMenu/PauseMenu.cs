@@ -34,7 +34,6 @@ public class PauseMenu : MonoBehaviour
 
     public void Guardar()
     {
-        // Implementar guardado desde el menú de pausa
         GameController.Instance.GuardarProgreso();
     }
 
