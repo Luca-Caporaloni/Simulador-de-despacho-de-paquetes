@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 70436903}
   - component: {fileID: 70436907}
   - component: {fileID: 70436909}
-  - component: {fileID: 70436908}
+  - component: {fileID: 70436910}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -435,19 +435,6 @@ MonoBehaviour:
   horaActual: 6
   minutosActual: 0
   tiempoEscala: 1
---- !u!114 &70436908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70436902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8785c4242406647aebccd9c725ff0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  espacioMaximo: 10
 --- !u!114 &70436909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +454,19 @@ MonoBehaviour:
   incrementoGanancia: 1.2
   botonMejoraAlmacen: {fileID: 1620353200}
   botonMejoraGanancia: {fileID: 337958987}
+--- !u!114 &70436910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70436902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8785c4242406647aebccd9c725ff0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  espacioMaximo: 10
 --- !u!1 &95315006
 GameObject:
   m_ObjectHideFlags: 0
@@ -5405,7 +5405,6 @@ MonoBehaviour:
   - {fileID: 1138649466}
   - {fileID: 136911768}
   - {fileID: 957168098}
-  - {fileID: 757493961}
 --- !u!1 &1640548292
 GameObject:
   m_ObjectHideFlags: 0

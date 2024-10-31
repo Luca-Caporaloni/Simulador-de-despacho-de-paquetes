@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class CambiarVistas : MonoBehaviour
 {
 
@@ -10,20 +11,7 @@ public class CambiarVistas : MonoBehaviour
     private int indiceVistaActual = 0;
     private Vector2 inicioDeslizamiento;
 
-
-    private void Awake()
-{
-    if (Instance == null)
-    {
-        Instance = this;
-        DontDestroyOnLoad(gameObject); // Mantener el objeto a través de las escenas
-    }
-    else
-    {
-        Destroy(gameObject); // Si ya hay una instancia, destruir esta
-    }
-}
-
+    private PaqueteInteract paqueteInteract; // Variable de instancia
 
 
     void Update()
@@ -54,42 +42,61 @@ public class CambiarVistas : MonoBehaviour
 
 void CambiarVista(int direccion)
 {
+    // Actualizar el índice de vista actual y cambiar la posición de la cámara
     indiceVistaActual += direccion;
     indiceVistaActual = Mathf.Clamp(indiceVistaActual, 0, posicionesVistas.Length - 1);
     camara.transform.position = posicionesVistas[indiceVistaActual].position;
 
-    if (indiceVistaActual == 0)
+    Debug.Log("Cambiando a vista " + indiceVistaActual);
+
+    // Llamar a métodos específicos según la vista actual
+    switch (indiceVistaActual)
     {
-        AlmacenManager.Instance.ActualizarInventarioUI();
-        MejoraManager.Instance.CerrarPanelMejoras();
-        UIDetallesPaquete.Instance.OcultarDetalles();
-    }
-    else if (indiceVistaActual == 1)
-    {
-        // Asegúrate de que se está buscando el objeto correcto
-        PaqueteInteract paqueteInteract = FindObjectOfType<PaqueteInteract>();
-        if (paqueteInteract != null)
-        {
-            Debug.Log("PaqueteInteract encontrado. Inspeccionando paquete.");
-            paqueteInteract.InspeccionarPaquete();
-            
-            // Aquí puedes necesitar obtener información sobre el paquete a inspeccionar
-            Paquete paqueteInspeccionado = new Paquete(paqueteInteract.destino, paqueteInteract.peso, paqueteInteract.valor);
-            UIDetallesPaquete.Instance.MostrarDetalles(paqueteInspeccionado, paqueteInteract.esFragil, paqueteInteract.horaEntrega);
-        }
-        else
-        {
-            Debug.LogError("No se encontró un objeto de tipo PaqueteInteract");
-        }
-        
-        MejoraManager.Instance.CerrarPanelMejoras();
-    }
-    else if (indiceVistaActual == 2)
-    {
-        MejoraManager.Instance.AbrirPanelMejoras();
-        UIDetallesPaquete.Instance.OcultarDetalles();
+        case 0:
+            ActivarVistaAlmacen();
+            break;
+        case 1:
+            ActivarVistaPaquete();
+            break;
+        case 2:
+            ActivarVistaMejoras();
+            break;
     }
 }
+
+private void ActivarVistaAlmacen()
+{
+    AlmacenManager.Instance.ActualizarInventarioUI();
+    MejoraManager.Instance.CerrarPanelMejoras();
+    UIDetallesPaquete.Instance.OcultarDetalles();
+
+}
+
+private void ActivarVistaPaquete()
+{
+    // Encuentra el objeto PaqueteInteract en la escena
+    PaqueteInteract paqueteInteract = FindObjectOfType<PaqueteInteract>();
+    Paquete paquete = new Paquete(paqueteInteract.destino, paqueteInteract.peso, paqueteInteract.valor);
+    // Verificar que paqueteInteract no sea null
+
+
+        // Llamar a MostrarDetalles con los parámetros requeridos
+        UIDetallesPaquete.Instance.MostrarDetalles(paquete, paqueteInteract.esFragil, paqueteInteract.horaEntrega);
+
+        // Cerrar el panel de mejoras
+        MejoraManager.Instance.CerrarPanelMejoras();
+
+
+}
+
+
+private void ActivarVistaMejoras()
+{
+    MejoraManager.Instance.AbrirPanelMejoras();
+    UIDetallesPaquete.Instance.OcultarDetalles();
+}
+
+
 
 
 

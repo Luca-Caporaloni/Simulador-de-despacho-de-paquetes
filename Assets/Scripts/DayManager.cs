@@ -8,8 +8,8 @@ public class DayManager : MonoBehaviour
     public int currentDay = 1;
     public int paquetesEnviados = 0;
     public int paquetesEntregados = 0;
-    public float dineroGanado = 0f;
-    public float incrementoGanancia = 1.0f; // Factor para incrementar ganancia
+    public int dineroGanado = 0;
+    public float incrementoGanancia = 1.05f; // Factor para incrementar ganancia
     private List<Paquete> paquetesDelDia;
 
 
@@ -31,6 +31,15 @@ public class DayManager : MonoBehaviour
         IniciarNuevoDia();
     }
 
+    public void ReiniciarPartida()
+    {
+        currentDay = 0;
+        paquetesEnviados = 0;
+        paquetesEntregados = 0;
+        dineroGanado = 0;
+        IniciarNuevoDia();
+    }
+
      public void IniciarNuevoDia()
     {
         currentDay++;
@@ -44,7 +53,7 @@ public class DayManager : MonoBehaviour
       public void DespacharPaquete(Paquete paquete)
     {
         paquetesEnviados++;
-        dineroGanado += paquete.valor * incrementoGanancia;
+        dineroGanado += Mathf.RoundToInt(paquete.valor * incrementoGanancia); // Convierte a int
         paquetesDelDia.Add(paquete);
 
         UIManager.Instance.MostrarEstadisticas();
@@ -58,11 +67,11 @@ public class DayManager : MonoBehaviour
      public void PaqueteDespachado(int costo)
     {
         paquetesEnviados++;
-        dineroGanado += costo * incrementoGanancia;
+        dineroGanado += Mathf.RoundToInt(costo * incrementoGanancia); // Convierte a int
         UIManager.Instance.MostrarEstadisticas();
     }
 
-   /* public void RecibirPaquetesIntensivo()
+  /* public void RecibirPaquetesIntensivo()
     {
         // Generar paquetes adicionales durante la hora pico
         for (int i = 0; i < 5; i++)

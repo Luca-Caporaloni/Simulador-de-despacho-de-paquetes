@@ -6,10 +6,10 @@ public class MejoraManager : MonoBehaviour
     public static MejoraManager Instance;
     public GameObject panelMejoras; // Asignar el panel de mejoras en el Inspector
 
-    public int costoMejoraAlmacen = 100;
-    public int incrementoEspacioAlmacen = 5;
-    public int costoMejoraGanancia = 150;
-    public float incrementoGanancia = 1.2f;
+    public int costoMejoraAlmacen = 2000;
+    public int incrementoEspacioAlmacen = 2;
+    public int costoMejoraGanancia = 2000;
+    public float incrementoGanancia = 1.05f;
 
     public Button botonMejoraAlmacen;
     public Button botonMejoraGanancia;
@@ -52,7 +52,7 @@ public class MejoraManager : MonoBehaviour
         if (DayManager.Instance.dineroGanado >= costoMejoraGanancia)
         {
             DayManager.Instance.dineroGanado -= costoMejoraGanancia;
-            DayManager.Instance.incrementoGanancia *= incrementoGanancia;
+            DayManager.Instance.incrementoGanancia *= Mathf.FloorToInt(incrementoGanancia);;
             Debug.Log("Mejora de ganancia realizada.");
         }
         else

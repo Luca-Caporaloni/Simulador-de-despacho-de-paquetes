@@ -14,51 +14,42 @@ public class PaqueteInteract : MonoBehaviour
     public UIDetallesPaquete uiDetallesPaquete;
 
 
-    private void Awake()
+
+
+
+    private void Start()
 {
-    if (Instance == null)
+    if (uiDetallesPaquete == null)
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject); // Mantener el objeto entre escenas
-    }
-    else
-    {
-        Destroy(gameObject); // Si ya existe, destruir este objeto
+        uiDetallesPaquete = UIDetallesPaquete.Instance;
+        if (uiDetallesPaquete == null)
+        {
+            Debug.LogError("No se encontró UIDetallesPaquete en la escena. Verifica que el objeto esté presente.");
+        }
+        else
+        {
+            GenerarDetallesAleatorios(); // Generar detalles aleatorios solo si la instancia existe
+        }
     }
 }
 
 
-    private void Start()
-    {
-         if (uiDetallesPaquete == null)
-        {
-            uiDetallesPaquete = FindObjectOfType<UIDetallesPaquete>();
-            GenerarDetallesAleatorios(); // Generar detalles aleatorios al inicio
-        }
-
-        
-    }
-
     private void GenerarDetallesAleatorios()
     {
-        // Generar peso aleatorio entre 1 y 20 kg
-        peso = Random.Range(1f, 20f);
-
-        // Calcular valor en función del peso (por ejemplo, $10 por kg)
-        valor = peso * 10f;
-
-        // Definir fragilidad al azar (50% de probabilidad de que sea frágil)
-        esFragil = Random.value > 0.5f;
-
-        // Generar un destino aleatorio (por ejemplo, una lista de ciudades)
+        // Generar un paquete con detalles aleatorios
         string[] destinos = { "Nueva York", "Londres", "París", "Tokio", "Sídney" };
-        destino = destinos[Random.Range(0, destinos.Length)];
+        string destino = destinos[Random.Range(0, destinos.Length)];
+        float peso = Random.Range(1f, 20f); // Peso entre 1 y 20 kg
+        float valor = peso * 10f; // Valor basado en el peso
+        bool esFragil = Random.value > 0.5f; // 50% de probabilidad de ser frágil
 
-        // Generar una hora de entrega aleatoria
-        int hora = Random.Range(8, 18); // Horario entre las 8 AM y 6 PM
-        int minutos = Random.Range(0, 60); // Minutos aleatorios
-        horaEntrega = hora.ToString("00") + ":" + minutos.ToString("00");
+        // Crear el paquete usando los parámetros generados
+        Paquete paquete = new Paquete(destino, peso, valor);
+
+        // Mostrar detalles en la UI
+        uiDetallesPaquete.MostrarDetalles(paquete, esFragil, paquete.horaEntrega);
     }
+
 
     public void InspeccionarPaquete()
 {
@@ -73,8 +64,6 @@ public class PaqueteInteract : MonoBehaviour
         uiDetallesPaquete.MostrarDetalles(paquete, esFragil, horaEntrega);
     }
 }
-
-
 
 
     public void DespacharPaquete(string destinoIngresado, string horaDespacho)

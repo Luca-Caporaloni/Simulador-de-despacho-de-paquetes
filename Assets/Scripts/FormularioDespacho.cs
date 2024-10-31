@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class FormularioDespacho : MonoBehaviour
 {
+
+    public static FormularioDespacho Instance;
+
+
     public GameObject formularioPanel; // Panel del formulario
     public InputField direccionInput;  // Campo de entrada para dirección
     public Button enviarButton;         // Botón para enviar el formulario
@@ -36,4 +40,10 @@ public class FormularioDespacho : MonoBehaviour
         formularioPanel.SetActive(false); // Ocultar el formulario después de enviar
         UIManager.Instance.MostrarEstadisticas();
     }
+
+    public void OcultarFormulario()
+    {
+        formularioPanel.SetActive(false);
+    }
+
 }

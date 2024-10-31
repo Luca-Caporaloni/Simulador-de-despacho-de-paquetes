@@ -10,7 +10,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI dineroText;
     public TextMeshProUGUI paquetesEnviadosText;
     public TextMeshProUGUI currentDayText;
-    public TextMeshProUGUI horaText; // Asegúrate de tener un TextMeshPro para la hora
+
+    public TextMeshProUGUI relojText;
 
     private void Awake()
     {
@@ -25,6 +26,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+     private void Start()
+    {
+        // Opcional: inicializar el reloj con el tiempo actual
+        ActualizarHoraUI("08:00"); // Hora inicial
+    }
     
 
     public void MostrarEstadisticas()
@@ -35,14 +41,15 @@ public class UIManager : MonoBehaviour
     }
 
     public void ActualizarHoraUI(string hora)
-{
-    if (horaText != null)
     {
-        horaText.text = hora;
-    }
-    else
-    {
-        Debug.LogWarning("Referencia a horaText no asignada en UIManager.");
+        if (relojText != null)
+        {
+            relojText.text = hora; // Actualizar el texto del reloj
+        }
+        else
+        {
+            Debug.LogWarning("relojText no está asignado en UIManager.");
+        }
     }
 }
-}
+

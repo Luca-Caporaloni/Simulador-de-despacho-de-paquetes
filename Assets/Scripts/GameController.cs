@@ -25,9 +25,9 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-         if (SaveSystem.ExistePartidaGuardada())
+        if (SaveSystem.ExistePartidaGuardada())
     {
-        CargarProgreso();
+        
     }
     
         saveButton.onClick.AddListener(GuardarProgreso);
@@ -48,8 +48,8 @@ public class GameController : MonoBehaviour
             dayManager.currentDay = data.currentDay;
             dayManager.paquetesEnviados = data.paquetesEnviados;
             dayManager.paquetesEntregados = data.paquetesEntregados;
-            dayManager.dineroGanado = data.dineroGanado;
-            uiManager.MostrarEstadisticas(); // Actualizar UI
+            dayManager.dineroGanado = Mathf.FloorToInt(data.dineroGanado);
+            UIManager.Instance.MostrarEstadisticas(); // Actualizar UI
             Debug.Log("Progreso cargado."); // Confirmación visual
         }
         else
