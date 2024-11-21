@@ -35,13 +35,14 @@ public class UIManager : MonoBehaviour
 
     public void MostrarEstadisticas()
     {
-        dineroText.text = "Dinero ganado: $" + DayManager.Instance.dineroGanado;
+        dineroText.text = "Dinero: $" + DayManager.Instance.dineroGanado;
         paquetesEnviadosText.text = "Paquetes enviados: " + DayManager.Instance.paquetesEnviados;
         currentDayText.text = "Día: " + DayManager.Instance.currentDay;
     }
 
     public void ActualizarHoraUI(string hora)
     {
+        
         if (relojText != null)
         {
             relojText.text = hora; // Actualizar el texto del reloj

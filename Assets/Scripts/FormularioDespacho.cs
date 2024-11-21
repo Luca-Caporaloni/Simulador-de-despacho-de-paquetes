@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class FormularioDespacho : MonoBehaviour
 {
 
+    public float valor; // Añade el campo de valor aquí
+
     public static FormularioDespacho Instance;
 
 
@@ -25,19 +27,24 @@ public class FormularioDespacho : MonoBehaviour
         formularioPanel.SetActive(true); // Mostrar el formulario
     }
 
-    public void EnviarFormulario()
+        public void EnviarFormulario()
+        {
+            string direccion = direccionInput.text; // Obtiene la dirección del campo de entrada
+
+            // Ahora pasa el paquete al método DespacharPaquete
+            Paquete paquete = AlmacenManager.Instance.ObtenerPaqueteParaInspeccion();
+    if (paquete != null && direccion == paquete.destino)
     {
-        string direccion = direccionInput.text; // Obtiene la dirección del campo de entrada
-
-        // Aquí debes crear una instancia de Paquete
-        // Por ejemplo, puedes definir otros parámetros como peso y valor de forma estática o aleatoria
-        Paquete nuevoPaquete = new Paquete(direccion, Random.Range(1f, 20f), Random.Range(10f, 100f)); // Cambia esto según tu lógica
-
-        // Ahora pasa el paquete al método DespacharPaquete
-        DayManager.Instance.DespacharPaquete(nuevoPaquete);
-
         Debug.Log("Paquete despachado a: " + direccion);
-        formularioPanel.SetActive(false); // Ocultar el formulario después de enviar
+        int costoPaquete = Mathf.RoundToInt(valor);
+        DayManager.Instance.PaqueteDespachado(costoPaquete);
+        formularioPanel.SetActive(false);
+    }
+    else
+    {
+        Debug.LogWarning("Dirección incorrecta.");
+        DayManager.Instance.RegistrarMulta(50, "Destino incorrecto");
+    }
         UIManager.Instance.MostrarEstadisticas();
     }
 

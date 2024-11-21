@@ -52,7 +52,7 @@ public class MejoraManager : MonoBehaviour
         if (DayManager.Instance.dineroGanado >= costoMejoraGanancia)
         {
             DayManager.Instance.dineroGanado -= costoMejoraGanancia;
-            DayManager.Instance.incrementoGanancia *= Mathf.FloorToInt(incrementoGanancia);;
+            DayManager.Instance.incrementoGanancia *= incrementoGanancia;
             Debug.Log("Mejora de ganancia realizada.");
         }
         else

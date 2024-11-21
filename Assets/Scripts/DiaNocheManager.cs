@@ -38,7 +38,14 @@ public class DiaNocheManager : MonoBehaviour
         
         // Formatear la hora para el UI
         string horaActual = Mathf.Floor(horaJuego).ToString("00") + ":" + Mathf.Floor((horaJuego % 1) * 60).ToString("00");
-        UIManager.Instance.ActualizarHoraUI(horaActual);
+        if (UIManager.Instance != null)
+{
+    UIManager.Instance.ActualizarHoraUI(horaActual);
+}
+else
+{
+    Debug.LogWarning("UIManager.Instance no está inicializado.");
+}
     }
 
     public void ReiniciarReloj()

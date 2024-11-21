@@ -10,6 +10,7 @@ public class DayManager : MonoBehaviour
     public int paquetesEntregados = 0;
     public int dineroGanado = 0;
     public float incrementoGanancia = 1.05f; // Factor para incrementar ganancia
+    private static int contadorMulta = 0;
     private List<Paquete> paquetesDelDia;
 
 
@@ -50,14 +51,7 @@ public class DayManager : MonoBehaviour
     }
 
 
-      public void DespacharPaquete(Paquete paquete)
-    {
-        paquetesEnviados++;
-        dineroGanado += Mathf.RoundToInt(paquete.valor * incrementoGanancia); // Convierte a int
-        paquetesDelDia.Add(paquete);
-
-        UIManager.Instance.MostrarEstadisticas();
-    }
+      
 
     public void EntregarPaquete()
     {
@@ -84,6 +78,7 @@ public class DayManager : MonoBehaviour
     // Método para registrar la multa
     public void RegistrarMulta(int multa, string razon)
     {
+        contadorMulta++;    
         dineroGanado -= multa;
         Debug.Log("Multa aplicada: " + multa + " por " + razon);
     }

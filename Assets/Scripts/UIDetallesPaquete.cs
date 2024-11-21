@@ -12,6 +12,17 @@ public class UIDetallesPaquete : MonoBehaviour
     public TextMeshProUGUI horaEntregaText;
     public GameObject panel;
 
+    public PaqueteInteract paqueteInteract;
+
+
+ private void Start()
+{
+    panel.SetActive(false); // Oculta solo el panel de detalles 
+   
+    paqueteInteract.GenerarDetallesAleatorios(); // Generar detalles aleatorios solo si la instancia existe
+    
+}
+
     private void Awake()
     {
         if (Instance == null)
@@ -25,16 +36,33 @@ public class UIDetallesPaquete : MonoBehaviour
         }
     }
 
-    public void MostrarDetalles(Paquete paquete, bool esFragil, string horaEntrega)
+   public void MostrarDetalles(Paquete paquete, bool esFragil, string horaEntrega)
 {
+    if (paquete == null)
+    {
+        Debug.LogError("Paquete es nulo al intentar mostrar detalles.");
+        return;
+    }
+
+    Debug.Log($"Paquete recibido para mostrar detalles: Destino={paquete.destino}, Peso={paquete.peso}, Valor={paquete.valor}, Hora={horaEntrega}");
+
+    if (destinoText == null || pesoText == null || valorText == null || fragilText == null || horaEntregaText == null)
+    {
+        Debug.LogError("Una o más referencias de TextMeshProUGUI no están asignadas.");
+        return;
+    }
+
     destinoText.text = "Destino: " + paquete.destino;
-    pesoText.text = "Peso: " + paquete.peso + " kg";
-    valorText.text = "Valor: $" + Mathf.FloorToInt(paquete.valor); // Asegúrate de que sea un entero
+    pesoText.text = "Peso: " + paquete.peso.ToString("0.00") + " kg";
+    valorText.text = "Valor: $" + Mathf.FloorToInt(paquete.valor);
     fragilText.text = esFragil ? "Frágil: Sí" : "Frágil: No";
     horaEntregaText.text = "Hora de entrega: " + horaEntrega;
 
-    panel.SetActive(true); // Asegúrate de que el panel de detalles esté visible
+    panel.SetActive(true); // Asegúrate de que el panel esté activo
 }
+
+
+
 
 
     public void OcultarDetalles()
