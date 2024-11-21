@@ -28,25 +28,47 @@ public class FormularioDespacho : MonoBehaviour
     }
 
         public void EnviarFormulario()
-        {
-            string direccion = direccionInput.text; // Obtiene la dirección del campo de entrada
+{
+    // Obtiene la dirección del campo de entrada y la normaliza
+    string direccion = NormalizarTexto(direccionInput.text);
 
-            // Ahora pasa el paquete al método DespacharPaquete
-            Paquete paquete = AlmacenManager.Instance.ObtenerPaqueteParaInspeccion();
-    if (paquete != null && direccion == paquete.destino)
+    // Obtiene el paquete del almacén para inspección
+    Paquete paquete = AlmacenManager.Instance.ObtenerPaqueteParaInspeccion();
+
+    // Verifica si el paquete existe
+    if (paquete != null)
     {
-        Debug.Log("Paquete despachado a: " + direccion);
-        int costoPaquete = Mathf.RoundToInt(valor);
-        DayManager.Instance.PaqueteDespachado(costoPaquete);
-        formularioPanel.SetActive(false);
+        string destinoPaqueteNormalizado = NormalizarTexto(paquete.destino);
+
+        // Compara la dirección ingresada con el destino del paquete
+        if (direccion == destinoPaqueteNormalizado)
+        {
+            Debug.Log("Paquete despachado correctamente a: " + direccion);
+            int costoPaquete = Mathf.RoundToInt(paquete.valor); // Usamos el valor del paquete
+            DayManager.Instance.PaqueteDespachado(costoPaquete);
+            formularioPanel.SetActive(false); // Oculta el formulario
+        }
+        else
+        {
+            Debug.LogWarning("Dirección incorrecta.");
+            DayManager.Instance.RegistrarMulta(50, "Destino incorrecto");
+        }
     }
     else
     {
-        Debug.LogWarning("Dirección incorrecta.");
-        DayManager.Instance.RegistrarMulta(50, "Destino incorrecto");
+        Debug.LogWarning("No hay paquete disponible para inspección.");
     }
-        UIManager.Instance.MostrarEstadisticas();
-    }
+
+    // Actualiza las estadísticas en la UI
+    UIManager.Instance.MostrarEstadisticas();
+}
+
+private string NormalizarTexto(string texto)
+{
+    if (string.IsNullOrEmpty(texto)) return ""; // Evita errores con cadenas vacías
+    return texto.Trim().ToLower().Replace("\n", "").Replace("\r", ""); // Limpia espacios y caracteres invisibles
+}
+
 
     public void OcultarFormulario()
     {

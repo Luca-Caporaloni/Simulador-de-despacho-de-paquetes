@@ -64,6 +64,11 @@ void CambiarVista(int direccion)
     }
 }
 
+public int GetHabitacionActual()
+    {
+        return indiceVistaActual;
+    }
+
 private void ActivarVistaAlmacen()
 {
     AlmacenManager.Instance.ActualizarInventarioUI();
@@ -76,13 +81,13 @@ private void ActivarVistaPaquete()
 {
     // Encuentra el objeto PaqueteInteract en la escena
     PaqueteInteract paqueteInteract = FindObjectOfType<PaqueteInteract>();
+
     Paquete paquete = new Paquete(paqueteInteract.destino, paqueteInteract.peso, paqueteInteract.valor);
     // Verificar que paqueteInteract no sea null
 
 
         // Llamar a MostrarDetalles con los parámetros requeridos
         UIDetallesPaquete.Instance.MostrarDetalles(paquete, paqueteInteract.esFragil, paqueteInteract.horaEntrega);
-
         // Cerrar el panel de mejoras
         MejoraManager.Instance.CerrarPanelMejoras();
 

@@ -79,37 +79,40 @@ public class PaqueteInteract : MonoBehaviour
 
    public void DespacharPaquete(string destinoIngresado, string horaDespacho)
 {
-    // Normalizar ambas cadenas para evitar diferencias por espacios o mayúsculas/minúsculas
-    string destinoNormalizado = destino.Trim().ToLower();
-    string destinoIngresadoNormalizado = destinoIngresado.Trim().ToLower();
+    string destinoNormalizado = NormalizarTexto(destino);
+    string destinoIngresadoNormalizado = NormalizarTexto(destinoIngresado);
 
-    Debug.Log($"Destino esperado (normalizado): '{destinoNormalizado}'");
-    Debug.Log($"Destino ingresado (normalizado): '{destinoIngresadoNormalizado}'");
-
-    // Verificar si el destino es correcto
-    bool destinoCorrecto = destinoNormalizado.Equals(destinoIngresadoNormalizado);
-    if (!destinoCorrecto)
+    if (!destinoNormalizado.Equals(destinoIngresadoNormalizado))
     {
         AplicarMulta("Destino incorrecto");
-        Debug.LogError($"Multa aplicada: Destino esperado='{destinoNormalizado}', ingresado='{destinoIngresadoNormalizado}'");
+        Debug.LogError($"Multa aplicada. Destino esperado: {destinoNormalizado}, ingresado: {destinoIngresadoNormalizado}");
         return;
     }
 
-    // Verificar si el horario es correcto
     if (!EsHoraCorrecta(horaDespacho))
     {
         AplicarMulta("Entrega tardía");
-        Debug.LogError($"Entrega tardía: Hora esperada='{horaEntrega}', ingresada='{horaDespacho}'");
+        Debug.LogError($"Multa por entrega tardía. Hora esperada: {horaEntrega}, ingresada: {horaDespacho}");
         return;
     }
 
-    // Si todo es correcto, registrar el despacho
     Debug.Log($"Paquete despachado correctamente a: {destino}");
     int costoPaquete = Mathf.RoundToInt(valor);
     DayManager.Instance.PaqueteDespachado(costoPaquete);
-    Destroy(gameObject); // Destruir el paquete tras el despacho
+
+    // Destruir el paquete actual y actualizar la interfaz con el siguiente paquete
+    Destroy(gameObject);
+    AlmacenManager.Instance.ObtenerPaqueteParaInspeccion();
 }
 
+
+
+
+private string NormalizarTexto(string texto)
+{
+    if (string.IsNullOrEmpty(texto)) return ""; // Evitar errores con cadenas vacías
+    return texto.Trim().ToLower().Replace("\n", "").Replace("\r", "");
+}
 
 
 
