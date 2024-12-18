@@ -13,6 +13,7 @@ public class Paquete
 {
     if (string.IsNullOrEmpty(destino))
     {
+        NotificacionManager.Instance.MostrarNotificacion($"No hay paquetes para inspeccionar");
         Debug.LogError("Destino vacío al crear un paquete.");
     }
     this.destino = destino;

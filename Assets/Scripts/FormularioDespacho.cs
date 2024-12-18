@@ -44,6 +44,7 @@ public class FormularioDespacho : MonoBehaviour
         if (direccion == destinoPaqueteNormalizado)
         {
             Debug.Log("Paquete despachado correctamente a: " + direccion);
+            NotificacionManager.Instance.MostrarNotificacion($"Paquete despachado correctamente a {direccion}");
             int costoPaquete = Mathf.RoundToInt(paquete.valor); // Usamos el valor del paquete
             DayManager.Instance.PaqueteDespachado(costoPaquete);
             formularioPanel.SetActive(false); // Oculta el formulario

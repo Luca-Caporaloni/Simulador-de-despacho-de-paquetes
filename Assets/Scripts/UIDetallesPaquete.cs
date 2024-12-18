@@ -19,7 +19,7 @@ public class UIDetallesPaquete : MonoBehaviour
 {
     panel.SetActive(false); // Oculta solo el panel de detalles 
    
-    paqueteInteract.GenerarDetallesAleatorios(); // Generar detalles aleatorios solo si la instancia existe
+    //paqueteInteract.GenerarDetallesAleatorios(); // Generar detalles aleatorios solo si la instancia existe
     
 }
 

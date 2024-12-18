@@ -30,7 +30,11 @@ public class PaqueteInteract : MonoBehaviour
         }
         else
         {
-            GenerarDetallesAleatorios(); // Generar detalles aleatorios solo si la instancia existe
+            destino = "Sin Datos";
+            peso = 0;
+            valor = 0;
+            horaEntrega = "Sin Datos";
+            //GenerarDetallesAleatorios(); // Generar detalles aleatorios solo si la instancia existe
         }
     }
 }
@@ -48,10 +52,11 @@ public class PaqueteInteract : MonoBehaviour
     Paquete paquete = new Paquete(destino, peso, valor);
 
     Debug.Log($"Generando paquete: Destino={paquete.destino}, Peso={paquete.peso}, Valor={paquete.valor}, Hora={horaEntrega}");
-
+    NotificacionManager.Instance.MostrarNotificacion($"Hay un nuevo paquete disponible para despachar");
     if (uiDetallesPaquete != null)
     {
         //uiDetallesPaquete.MostrarDetalles(paquete, esFragil, horaEntrega);
+        NotificacionManager.Instance.MostrarNotificacion($"Hay un nuevo paquete disponible para despachar");
     }
     else
     {
@@ -86,6 +91,7 @@ public class PaqueteInteract : MonoBehaviour
     {
         AplicarMulta("Destino incorrecto");
         Debug.LogError($"Multa aplicada. Destino esperado: {destinoNormalizado}, ingresado: {destinoIngresadoNormalizado}");
+        NotificacionManager.Instance.MostrarNotificacion($"Multa aplicada. Destino esperado: {destinoNormalizado}, ingresado: {destinoIngresadoNormalizado}$");
         return;
     }
 
@@ -93,12 +99,15 @@ public class PaqueteInteract : MonoBehaviour
     {
         AplicarMulta("Entrega tardía");
         Debug.LogError($"Multa por entrega tardía. Hora esperada: {horaEntrega}, ingresada: {horaDespacho}");
+        NotificacionManager.Instance.MostrarNotificacion($"Multa por entrega tardía. Hora esperada: {horaEntrega}, ingresada: {horaDespacho}$");
         return;
     }
 
     Debug.Log($"Paquete despachado correctamente a: {destino}");
     int costoPaquete = Mathf.RoundToInt(valor);
     DayManager.Instance.PaqueteDespachado(costoPaquete);
+
+    NotificacionManager.Instance.MostrarNotificacion($"Paquete enviado a: {destino} por {costoPaquete}$");
 
     // Destruir el paquete actual y actualizar la interfaz con el siguiente paquete
     Destroy(gameObject);
@@ -153,9 +162,14 @@ private string NormalizarTexto(string texto)
 
 private void AplicarMulta(string razon)
 {
-    int multa = Mathf.RoundToInt(valor * 0.2f); // Ejemplo: multa del 20% del valor del paquete
-    DayManager.Instance.RegistrarMulta(multa, razon);
-    Debug.Log($"Multa aplicada: {multa}. Razón: {razon}");
+    //int multa = Mathf.RoundToInt(valor * 0.2f); // Ejemplo: multa del 20% del valor del paquete
+    //DayManager.Instance.RegistrarMulta(multa, razon);
+    //Debug.Log($"Multa aplicada: {multa}. Razón: {razon}");
+
+    // Mostrar notificación
+    //NotificacionManager.Instance.MostrarNotificacion($"Multa aplicada: {multa}$ por {razon}");
 }
 
 }
+
+

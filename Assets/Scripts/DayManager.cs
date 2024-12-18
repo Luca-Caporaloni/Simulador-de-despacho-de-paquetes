@@ -81,5 +81,6 @@ public class DayManager : MonoBehaviour
         contadorMulta++;    
         dineroGanado -= multa;
         Debug.Log("Multa aplicada: " + multa + " por " + razon);
+        NotificacionManager.Instance.MostrarNotificacion($"Multa Aplicada. Monto: {multa}, Razón: {razon}.$");
     }
 }

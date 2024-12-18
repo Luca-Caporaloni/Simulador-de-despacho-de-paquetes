@@ -14,6 +14,20 @@ public class CambiarVistas : MonoBehaviour
     private PaqueteInteract paqueteInteract; // Variable de instancia
 
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this; // Establece la instancia del Singleton
+            DontDestroyOnLoad(gameObject); // Opcional: mantener el objeto entre escenas
+        }
+        else
+        {
+            Destroy(gameObject); // Si ya hay una instancia, destruye esta
+        }
+    }
+
+
     void Update()
     {
         DetectarDeslizamiento();
@@ -40,7 +54,7 @@ public class CambiarVistas : MonoBehaviour
         }
     }
 
-void CambiarVista(int direccion)
+public void CambiarVista(int direccion)
 {
     // Actualizar el índice de vista actual y cambiar la posición de la cámara
     indiceVistaActual += direccion;

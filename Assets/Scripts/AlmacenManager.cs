@@ -55,8 +55,13 @@ public class AlmacenManager : MonoBehaviour
 
                 Debug.Log($"Paquete generado: Destino={nuevoPaquete.destino}, Peso={nuevoPaquete.peso}kg, Valor={nuevoPaquete.valor}");
 
+                // Cambiar automáticamente a la vista de inspección (Vista 1)
+                CambiarVistas.Instance.CambiarVista(1);
+
                 // Update the UI with the details of the most recent package
                 UIDetallesPaquete.Instance.MostrarDetalles(nuevoPaquete, nuevoPaquete.esFragil, nuevoPaquete.horaEntrega);
+
+                NotificacionManager.Instance.MostrarNotificacion($"¡Nuevo paquete ingresado para inspeccionar!");
             }
             else
             {
@@ -65,23 +70,27 @@ public class AlmacenManager : MonoBehaviour
             }
         }
     }
+  
 }
 
 
 
 
     public void RecibirPaquete(Paquete nuevoPaquete)
+{
+    if (inventario.Count < espacioMaximo)
     {
-        if (inventario.Count < espacioMaximo)
-        {
-            inventario.Add(nuevoPaquete);
-            Debug.Log("Paquete recibido en el almacén.");
-        }
-        else
-        {
-            Debug.Log("Almacén lleno. No se pueden recibir más paquetes.");
-        }
+        inventario.Add(nuevoPaquete);
+        Debug.Log("Paquete recibido en el almacén.");
+        NotificacionManager.Instance.MostrarNotificacion("¡Paquete recibido en el almacén!");
     }
+    else
+    {
+        Debug.Log("Almacén lleno. No se pueden recibir más paquetes.");
+        NotificacionManager.Instance.MostrarNotificacion("El almacén está lleno. No se pueden recibir más paquetes.");
+    }
+}
+
 
     public Paquete ObtenerPaqueteParaInspeccion()
 {
@@ -90,6 +99,7 @@ public class AlmacenManager : MonoBehaviour
         Paquete paquete = inventario[0];
         inventario.RemoveAt(0);
         Debug.Log($"Paquete obtenido para inspección: Destino={paquete.destino}");
+        NotificacionManager.Instance.MostrarNotificacion($"Paquete obtenido para inspección: Destino: {paquete.destino}");
         return paquete;
     }
     else
